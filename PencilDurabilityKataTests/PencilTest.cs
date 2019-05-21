@@ -10,6 +10,14 @@ namespace PencilDurabilityKataTests
     [TestFixture]
     class PencilTest
     {
+        Mock<IPaper> paperMock;
+
+        [SetUp]
+        public void Setup()
+        {
+            paperMock = new Mock<IPaper>();
+        }
+
         [Test]
         public void When_WriteWithoutPaper_ExpectNoPaperException()
         {
@@ -23,9 +31,10 @@ namespace PencilDurabilityKataTests
         [Test]
         public void When_WriteWithPaper_ExpectNoException()
         {
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, 0);
+
             pencil.Write(string.Empty);
+
             Assert.Pass();
         }
 
@@ -35,7 +44,9 @@ namespace PencilDurabilityKataTests
             var textToWrite = "test";
             var paper = new Paper();
             var pencil = new Pencil(paper, 0);
+
             pencil.Write(textToWrite);
+
             Assert.AreEqual(paper.Text, textToWrite);
         }
 
@@ -44,10 +55,12 @@ namespace PencilDurabilityKataTests
         {
             var existingText = "existing text";
             var paper = new Paper();
+
             paper.AddText(existingText);
 
             var newText = "new text";
             var pencil = new Pencil(paper, 0);
+
             pencil.Write(newText);
 
             Assert.AreEqual(paper.Text, $"{existingText}{newText}");
@@ -57,8 +70,8 @@ namespace PencilDurabilityKataTests
         public void When_NewPencil_Expect_DurabilityToMatchValueInConstructor()
         {
             var durability = 40000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             Assert.AreEqual(pencil.Durability, durability);
         }
 
@@ -66,9 +79,10 @@ namespace PencilDurabilityKataTests
         public void When_WriteEmpty_Expect_DurabilityToStayTheSame()
         {
             var durability = 4000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             pencil.Write(string.Empty);
+
             Assert.AreEqual(pencil.Durability, durability);
         }
 
@@ -76,9 +90,10 @@ namespace PencilDurabilityKataTests
         public void When_WriteOneLowerCaseCharacter_Expect_DurabilityToDegradeByOne()
         {
             var durability = 4000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             pencil.Write("a");
+
             Assert.AreEqual(pencil.Durability, 3999);
         }
 
@@ -86,9 +101,10 @@ namespace PencilDurabilityKataTests
         public void When_WriteOneUpperCaseCharacter_Expect_DurabilityToDegradeByTwo()
         {
             var durability = 4000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             pencil.Write("A");
+
             Assert.AreEqual(pencil.Durability, 3998);
         }
 
@@ -96,9 +112,10 @@ namespace PencilDurabilityKataTests
         public void When_WriteOneUpperCaseCharacterAndOneLowerCaseCharacter_Expect_DurabilityToDegradeByThree()
         {
             var durability = 4000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             pencil.Write("Aa");
+
             Assert.AreEqual(pencil.Durability, 3997);
         }
 
@@ -106,9 +123,10 @@ namespace PencilDurabilityKataTests
         public void When_WriteSpace_Expect_DurabilityToStayTheSame()
         {
             var durability = 4000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             pencil.Write(" ");
+
             Assert.AreEqual(pencil.Durability, durability);
         }
 
@@ -116,9 +134,10 @@ namespace PencilDurabilityKataTests
         public void When_WriteNewLine_Expect_DurabilityToStayTheSame()
         {
             var durability = 4000;
-            var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
+
             pencil.Write(Environment.NewLine);
+
             Assert.AreEqual(pencil.Durability, durability);
         }
     }
