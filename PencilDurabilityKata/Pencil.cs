@@ -27,10 +27,9 @@ namespace PencilDurabilityKata
 
             foreach (var character in text)
             {
-                DegradeDurability(character);
-
                 var nextCharacter = Durability == 0 ? ' ' : character;
                 stringBuilder.Append(nextCharacter);
+                DegradeDurability(character);
             }
 
             paper.AddText(stringBuilder.ToString());
