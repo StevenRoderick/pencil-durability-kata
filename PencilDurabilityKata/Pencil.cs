@@ -1,5 +1,6 @@
 ﻿using PencilDurabilityKata.Exceptions;
 using PencilDurabilityKata.Interfaces;
+using System.Linq;
 
 namespace PencilDurabilityKata
 {
@@ -22,7 +23,14 @@ namespace PencilDurabilityKata
             }
 
             paper.AddText(text);
-            Durability--;
+            if (text.Any(char.IsUpper))
+            {
+                Durability -= 2;
+            }
+            else
+            {
+                Durability--;
+            }
         }
     }
 }
