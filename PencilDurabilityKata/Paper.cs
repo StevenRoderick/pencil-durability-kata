@@ -10,7 +10,7 @@ namespace PencilDurabilityKata
 
         public void AddText(string text)
         {
-            Text = text;
+            Text += text;
         }
     }
 }
