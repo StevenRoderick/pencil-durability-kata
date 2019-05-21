@@ -30,7 +30,7 @@ namespace PencilDurabilityKata
                 {
                     Durability -= 2;
                 }
-                else
+                else if (char.IsLower(character))
                 {
                     Durability--;
                 }

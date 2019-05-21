@@ -3,6 +3,7 @@ using PencilDurabilityKata;
 using PencilDurabilityKata.Exceptions;
 using Moq;
 using PencilDurabilityKata.Interfaces;
+using System;
 
 namespace PencilDurabilityKataTests
 {
@@ -92,13 +93,33 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_Write_OneUpperCaseCharacterAndOneLowerCaseCharacter_Expect_DurabilityToDegradeByThree()
+        public void When_WriteOneUpperCaseCharacterAndOneLowerCaseCharacter_Expect_DurabilityToDegradeByThree()
         {
             var durability = 4000;
             var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object, durability);
             pencil.Write("Aa");
             Assert.AreEqual(pencil.Durability, 3997);
+        }
+
+        [Test]
+        public void When_WriteSpace_Expect_DurabilityToStayTheSame()
+        {
+            var durability = 4000;
+            var paperMock = new Mock<IPaper>();
+            var pencil = new Pencil(paperMock.Object, durability);
+            pencil.Write(" ");
+            Assert.AreEqual(pencil.Durability, durability);
+        }
+
+        [Test]
+        public void When_WriteNewLine_Expect_DurabilityToStayTheSame()
+        {
+            var durability = 4000;
+            var paperMock = new Mock<IPaper>();
+            var pencil = new Pencil(paperMock.Object, durability);
+            pencil.Write(Environment.NewLine);
+            Assert.AreEqual(pencil.Durability, durability);
         }
     }
 }
