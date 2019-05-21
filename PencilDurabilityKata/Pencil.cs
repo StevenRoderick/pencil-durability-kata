@@ -6,10 +6,12 @@ namespace PencilDurabilityKata
     public class Pencil
     {
         private IPaper paper;
+        public int Durability { get; }
 
-        public Pencil(IPaper paper)
+        public Pencil(IPaper paper, int durability)
         {
             this.paper = paper;
+            Durability = durability;
         }
 
         public void Write(string text)

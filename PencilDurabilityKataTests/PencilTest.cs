@@ -12,7 +12,7 @@ namespace PencilDurabilityKataTests
         [Test]
         public void When_WriteWithoutPaper_ExpectNoPaperException()
         {
-            var pencil = new Pencil(null);
+            var pencil = new Pencil(null, 0);
             Assert.Throws<NoPaperException>(() =>
             {
                 pencil.Write(string.Empty);
@@ -23,7 +23,7 @@ namespace PencilDurabilityKataTests
         public void When_WriteWithPaper_ExpectNoException()
         {
             var paperMock = new Mock<IPaper>();
-            var pencil = new Pencil(paperMock.Object);
+            var pencil = new Pencil(paperMock.Object, 0);
             pencil.Write(string.Empty);
             Assert.Pass();
         }
@@ -33,7 +33,7 @@ namespace PencilDurabilityKataTests
         {
             var textToWrite = "test";
             var paper = new Paper();
-            var pencil = new Pencil(paper);
+            var pencil = new Pencil(paper, 0);
             pencil.Write(textToWrite);
             Assert.AreEqual(paper.Text, textToWrite);
         }
@@ -46,10 +46,19 @@ namespace PencilDurabilityKataTests
             paper.AddText(existingText);
 
             var newText = "new text";
-            var pencil = new Pencil(paper);
+            var pencil = new Pencil(paper, 0);
             pencil.Write(newText);
 
             Assert.AreEqual(paper.Text, $"{existingText}{newText}");
+        }
+
+        [Test]
+        public void When_NewPencil_Expect_DurabilityToMatchValueInConstructor()
+        {
+            var durability = 40000;
+            var paperMock = new Mock<IPaper>();
+            var pencil = new Pencil(paperMock.Object, durability);
+            Assert.AreEqual(pencil.Durability, durability);
         }
     }
 }
