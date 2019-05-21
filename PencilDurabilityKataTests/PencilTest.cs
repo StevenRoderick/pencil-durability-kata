@@ -150,5 +150,15 @@ namespace PencilDurabilityKataTests
             pencil.Write("Test");
             Assert.AreEqual(paper.Text, "    ");
         }
+
+        [Test]
+        public void When_PencilHas0DurabilityAndTextToWriteStill_Expect_DurabilityToNotGoBelow0()
+        {
+            var durability = 0;
+            var paper = new Paper();
+            var pencil = new Pencil(paper, durability);
+            pencil.Write("Test");
+            Assert.AreEqual(pencil.Durability, durability);
+        }
     }
 }
