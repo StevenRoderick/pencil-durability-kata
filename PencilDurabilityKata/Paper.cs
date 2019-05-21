@@ -1,6 +1,8 @@
-﻿namespace PencilDurabilityKata
+﻿using PencilDurabilityKata.Interfaces;
+
+namespace PencilDurabilityKata
 {
-    public class Paper
+    public class Paper: IPaper
     {
         public string Text = string.Empty;
 
