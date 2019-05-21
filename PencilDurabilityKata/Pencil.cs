@@ -6,7 +6,7 @@ namespace PencilDurabilityKata
     public class Pencil
     {
         private IPaper paper;
-        public int Durability { get; }
+        public int Durability { get; private set; }
 
         public Pencil(IPaper paper, int durability)
         {
@@ -22,6 +22,7 @@ namespace PencilDurabilityKata
             }
 
             paper.AddText(text);
+            Durability--;
         }
     }
 }

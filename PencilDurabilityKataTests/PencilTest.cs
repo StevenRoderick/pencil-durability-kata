@@ -60,5 +60,15 @@ namespace PencilDurabilityKataTests
             var pencil = new Pencil(paperMock.Object, durability);
             Assert.AreEqual(pencil.Durability, durability);
         }
+
+        [Test]
+        public void When_Write_Expect_DurabilityToDegrade()
+        {
+            var durability = 4000;
+            var paperMock = new Mock<IPaper>();
+            var pencil = new Pencil(paperMock.Object, durability);
+            pencil.Write(string.Empty);
+            Assert.Less(pencil.Durability, durability);
+        }
     }
 }
