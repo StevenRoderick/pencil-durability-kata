@@ -43,7 +43,7 @@ namespace PencilDurabilityKataTests
         {
             var textToWrite = "test";
             var paper = new Paper();
-            var pencil = new Pencil(paper, 0);
+            var pencil = new Pencil(paper, 4000);
 
             pencil.Write(textToWrite);
 
@@ -59,7 +59,7 @@ namespace PencilDurabilityKataTests
             paper.AddText(existingText);
 
             var newText = "new text";
-            var pencil = new Pencil(paper, 0);
+            var pencil = new Pencil(paper, 4000);
 
             pencil.Write(newText);
 
@@ -139,6 +139,16 @@ namespace PencilDurabilityKataTests
             pencil.Write(Environment.NewLine);
 
             Assert.AreEqual(pencil.Durability, durability);
+        }
+
+        [Test]
+        public void When_PencilHas0Durability_Expect_PaperTextToBeSpaceCharacters()
+        {
+            var durability = 0;
+            var paper = new Paper();
+            var pencil = new Pencil(paper, durability);
+            pencil.Write("Test");
+            Assert.AreEqual(paper.Text, "    ");
         }
     }
 }

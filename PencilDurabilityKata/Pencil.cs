@@ -1,6 +1,7 @@
 ﻿using PencilDurabilityKata.Exceptions;
 using PencilDurabilityKata.Interfaces;
-using System.Linq;
+using System;
+using System.Text;
 
 namespace PencilDurabilityKata
 {
@@ -22,19 +23,31 @@ namespace PencilDurabilityKata
                 throw new NoPaperException();
             }
 
-            paper.AddText(text);
+            var stringBuilder = new StringBuilder();
 
             foreach (var character in text)
             {
-                if (char.IsUpper(character))
-                {
-                    Durability -= 2;
-                }
-                else if (char.IsLower(character))
-                {
-                    Durability--;
-                }
+                DegradeDurability(character);
+
+                var nextCharacter = Durability == 0 ? ' ' : character;
+                stringBuilder.Append(nextCharacter);
             }
+
+            paper.AddText(stringBuilder.ToString());
+        }
+
+        private void DegradeDurability(char character)
+        {
+            if (char.IsUpper(character))
+            {
+                Durability -= 2;
+            }
+            else if (char.IsLower(character))
+            {
+                Durability--;
+            }
+
+            Durability = Math.Clamp(Durability, 0, int.MaxValue);
         }
     }
 }
