@@ -15,7 +15,7 @@ namespace PencilDurabilityKataTests
             var pencil = new Pencil(null);
             Assert.Throws<NoPaperException>(() =>
             {
-                pencil.Write();
+                pencil.Write(string.Empty);
             });
         }
 
@@ -24,8 +24,18 @@ namespace PencilDurabilityKataTests
         {
             var paperMock = new Mock<IPaper>();
             var pencil = new Pencil(paperMock.Object);
-            pencil.Write();
+            pencil.Write(string.Empty);
             Assert.Pass();
+        }
+
+        [Test]
+        public void When_WriteWithText_ExpectPaperToHaveSameText()
+        {
+            var textToWrite = "test";
+            var paper = new Paper();
+            var pencil = new Pencil(paper);
+            pencil.Write(textToWrite);
+            Assert.AreEqual(paper.Text, textToWrite);
         }
     }
 }

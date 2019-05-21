@@ -12,12 +12,14 @@ namespace PencilDurabilityKata
             this.paper = paper;
         }
 
-        public void Write()
+        public void Write(string text)
         {
             if (paper == null)
             {
                 throw new NoPaperException();
             }
+
+            paper.AddText(text);
         }
     }
 }
