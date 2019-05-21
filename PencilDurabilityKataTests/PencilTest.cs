@@ -37,5 +37,19 @@ namespace PencilDurabilityKataTests
             pencil.Write(textToWrite);
             Assert.AreEqual(paper.Text, textToWrite);
         }
+
+        [Test]
+        public void When_WriteWithTextOnPaperWithExistingText_Expect_NewTextToBeAppendedToExistingText()
+        {
+            var existingText = "existing text";
+            var paper = new Paper();
+            paper.AddText(existingText);
+
+            var newText = "new text";
+            var pencil = new Pencil(paper);
+            pencil.Write(newText);
+
+            Assert.AreEqual(paper.Text, $"{existingText}{newText}");
+        }
     }
 }
