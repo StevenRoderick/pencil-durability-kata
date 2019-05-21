@@ -23,13 +23,17 @@ namespace PencilDurabilityKata
             }
 
             paper.AddText(text);
-            if (text.Any(char.IsUpper))
+
+            foreach (var character in text)
             {
-                Durability -= 2;
-            }
-            else
-            {
-                Durability--;
+                if (char.IsUpper(character))
+                {
+                    Durability -= 2;
+                }
+                else
+                {
+                    Durability--;
+                }
             }
         }
     }
