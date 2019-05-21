@@ -3,12 +3,20 @@ using PencilDurabilityKata;
 
 namespace Tests
 {
+    [TestFixture]
     public class PaperTests
     {
+        private Paper paper;
+
+        [SetUp]
+        public void Setup()
+        {
+            paper = new Paper();
+        }
+
         [Test]
         public void When_NewPaper_Expect_TextIsEmpty()
         {
-            var paper = new Paper();
             Assert.IsEmpty(paper.Text);
         }
 
@@ -16,7 +24,6 @@ namespace Tests
         public void When_AddText_Expect_PaperToHaveSameText()
         {
             var textToAdd = "new text";
-            var paper = new Paper();
             paper.AddText(textToAdd);
 
             Assert.AreEqual(paper.Text, textToAdd);
@@ -28,7 +35,6 @@ namespace Tests
             var firstText = "first text";
             var secondText = "second text";
 
-            var paper = new Paper();
             paper.AddText(firstText);
             paper.AddText(secondText);
 
