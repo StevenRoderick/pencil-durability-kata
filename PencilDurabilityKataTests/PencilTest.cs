@@ -272,5 +272,20 @@ namespace PencilDurabilityKataTests
             pencil.Erase(textToBeErased);
             Assert.AreEqual(pencil.EraserDurability, 90);
         }
+
+        [Test]
+        public void When_EraseAnd0Durability_Expect_EraseToNotErase()
+        {
+            var text = "Erasing fun";
+            var textToErase = "fun";
+
+            var paper = new Paper();
+            var pencil = new Pencil(paper, 100, 5, 0);
+
+            pencil.Write(text);
+            pencil.Erase(textToErase);
+
+            Assert.AreEqual(paper.Text, text);
+        }
     }
 }

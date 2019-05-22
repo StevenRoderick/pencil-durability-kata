@@ -38,15 +38,22 @@ namespace PencilDurabilityKata
 
         public void Erase(string text)
         {
+            var stringBuilder = new StringBuilder();
+
             foreach(var character in text)
             {
+                if (EraserDurability > 0)
+                {
+                    stringBuilder.Append(character);
+                }
+
                 if (!char.IsWhiteSpace(character))
                 {
                     EraserDurability--;
                 }
             }
 
-            paper.RemoveText(text);
+            paper.RemoveText(stringBuilder.ToString());
         }
 
         public void Sharpen()
