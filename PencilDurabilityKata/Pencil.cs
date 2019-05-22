@@ -10,16 +10,18 @@ namespace PencilDurabilityKata
         private IPaper paper;
         public int Durability { get; private set; }
         public int Length { get; private set; }
+        public int EraserDurability { get; private set; }
 
         private const char dullPencilCharacter = ' ';
         private readonly int startingDurability;
 
-        public Pencil(IPaper paper, int durability, int length)
+        public Pencil(IPaper paper, int durability, int length, int eraserDurability)
         {
             this.paper = paper;
             startingDurability = durability;
             Durability = durability;
             Length = length;
+            EraserDurability = eraserDurability;
         }
 
         public void Write(string text)
@@ -36,6 +38,11 @@ namespace PencilDurabilityKata
 
         public void Erase(string text)
         {
+            foreach(var character in text)
+            {
+                EraserDurability--;
+            }
+
             paper.RemoveText(text);
         }
 
