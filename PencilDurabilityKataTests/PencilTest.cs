@@ -180,7 +180,7 @@ namespace PencilDurabilityKataTests
         public void When_PencilIsSharpened_Expect_DurabilityToReturnToStartingValue()
         {
             var startingDurability = 2;
-            var pencil = new Pencil(paperMock.Object, startingDurability, 0);
+            var pencil = new Pencil(paperMock.Object, startingDurability, 1);
             pencil.Write("a");
             Assert.Less(pencil.Durability, startingDurability);
             pencil.Sharpen();
@@ -222,6 +222,18 @@ namespace PencilDurabilityKataTests
             var startingLength = 3;
             var pencil = new Pencil(paperMock.Object, 0, startingLength);
             Assert.AreEqual(pencil.Length, startingLength);
+        }
+
+        [Test]
+        public void When_PencilHas0Length_Expect_DurabilityToNotRestore()
+        {
+            var startingDurability = 5;
+            var startingLength = 0;
+            var pencil = new Pencil(paperMock.Object, startingDurability, startingLength);
+            pencil.Write("a");
+            Assert.AreEqual(pencil.Durability, 4);
+            pencil.Sharpen();
+            Assert.AreEqual(pencil.Durability, 4);
         }
     }
 }
