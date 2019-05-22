@@ -260,5 +260,17 @@ namespace PencilDurabilityKataTests
             pencil.Erase(textToBeErased);
             Assert.AreEqual(pencil.EraserDurability, 94);
         }
+
+        [Test]
+        public void When_Erase_Expect_EraserDurabilityToDecreaseOnlyOnNonWhiteSpaceCharacters()
+        {
+            var text = "Erasing pencil test";
+            var textToBeErased = " pencil test";
+
+            var pencil = new Pencil(paperMock.Object, 100, 5, 100);
+            pencil.Write(text);
+            pencil.Erase(textToBeErased);
+            Assert.AreEqual(pencil.EraserDurability, 90);
+        }
     }
 }

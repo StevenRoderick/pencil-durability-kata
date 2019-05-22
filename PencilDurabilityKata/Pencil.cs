@@ -40,7 +40,10 @@ namespace PencilDurabilityKata
         {
             foreach(var character in text)
             {
-                EraserDurability--;
+                if (!char.IsWhiteSpace(character))
+                {
+                    EraserDurability--;
+                }
             }
 
             paper.RemoveText(text);
