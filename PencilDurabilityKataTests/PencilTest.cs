@@ -175,5 +175,16 @@ namespace PencilDurabilityKataTests
 
             Assert.AreEqual(paper.Text, "te  ");
         }
+
+        [Test]
+        public void When_PencilIsSharpened_Expect_DurabilityToReturnToStartingValue()
+        {
+            var startingDurability = 2;
+            var pencil = new Pencil(paperMock.Object, startingDurability);
+            pencil.Write("a");
+            Assert.Less(pencil.Durability, startingDurability);
+            pencil.Sharpen();
+            Assert.AreEqual(pencil.Durability, startingDurability);
+        }
     }
 }

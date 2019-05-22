@@ -11,10 +11,12 @@ namespace PencilDurabilityKata
         public int Durability { get; private set; }
 
         private const char dullPencilCharacter = ' ';
+        private readonly int startingDurability;
 
         public Pencil(IPaper paper, int durability)
         {
             this.paper = paper;
+            startingDurability = durability;
             Durability = durability;
         }
 
@@ -28,6 +30,11 @@ namespace PencilDurabilityKata
             var printedText = Print(text);
 
             paper.AddText(printedText);
+        }
+
+        public void Sharpen()
+        {
+            Durability = startingDurability;
         }
 
         private string Print(string text)
