@@ -2,6 +2,7 @@
 using PencilDurabilityKata.Interfaces;
 using System;
 using System.Text;
+using System.Linq;
 
 namespace PencilDurabilityKata
 {
@@ -40,11 +41,11 @@ namespace PencilDurabilityKata
         {
             var stringBuilder = new StringBuilder();
 
-            foreach(var character in text)
+            foreach(var character in text.Reverse())
             {
                 if (EraserDurability > 0)
                 {
-                    stringBuilder.Append(character);
+                    stringBuilder.Insert(0, character);
                 }
 
                 if (!char.IsWhiteSpace(character))

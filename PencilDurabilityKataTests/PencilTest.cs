@@ -287,5 +287,22 @@ namespace PencilDurabilityKataTests
 
             Assert.AreEqual(paper.Text, text);
         }
+
+        [Test]
+        public void When_EraseAnd2Durability_Expect_EraseToOnlyEraseLast2CharactersInText()
+        {
+            var text = "Erasing test";
+            var textToErase = "test";
+
+            var eraserDurability = 2;
+
+            var paper = new Paper();
+            var pencil = new Pencil(paper, 100, 5, eraserDurability);
+
+            pencil.Write(text);
+            pencil.Erase(textToErase);
+
+            Assert.AreEqual(paper.Text, "Erasing te  ");
+        }
     }
 }
