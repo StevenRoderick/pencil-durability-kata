@@ -196,5 +196,32 @@ namespace PencilDurabilityKataTests
             pencil.Sharpen();
             Assert.Less(pencil.Length, startingLength);
         }
+
+        [Test]
+        public void When_PencilIsSharpened_Expect_LengthToBeReducedByOne()
+        {
+            var startingLength = 3;
+            var pencil = new Pencil(paperMock.Object, 0, startingLength);
+            pencil.Sharpen();
+            Assert.AreEqual(pencil.Length, 2);
+        }
+
+        [Test]
+        public void When_PencilIsSharpenedTwice_Expect_LengthToBeReducedByTwo()
+        {
+            var startingLength = 3;
+            var pencil = new Pencil(paperMock.Object, 0, startingLength);
+            pencil.Sharpen();
+            pencil.Sharpen();
+            Assert.AreEqual(pencil.Length, 1);
+        }
+
+        [Test]
+        public void When_PencilIsNotSharpened_Expect_LengthToBeOriginal()
+        {
+            var startingLength = 3;
+            var pencil = new Pencil(paperMock.Object, 0, startingLength);
+            Assert.AreEqual(pencil.Length, startingLength);
+        }
     }
 }
