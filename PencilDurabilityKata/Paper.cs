@@ -9,7 +9,6 @@ namespace PencilDurabilityKata
         public string Text { get; private set; }
 
         private int indexOfLastRemovedText;
-        private int lengthOfLastRemovedText;
 
         public Paper()
         {
@@ -28,28 +27,37 @@ namespace PencilDurabilityKata
             Text = Text.Insert(lastIndex, new string(' ', text.Length));
 
             indexOfLastRemovedText = lastIndex;
-            lengthOfLastRemovedText = text.Length;
         }
 
-        public void EditText(string text)
+        public void EditText(string editText)
         {
-            var editText = Text.Substring(indexOfLastRemovedText, text.Length);
+            var snapShotLength = Text.Length - indexOfLastRemovedText;
+            var subStringLength = snapShotLength > editText.Length ? editText.Length : snapShotLength;
+            var snapShotOfOriginalText = Text.Substring(indexOfLastRemovedText, subStringLength);
 
-            for (int i = 0; i < text.Length; i++)
+            var editExtensionLength = editText.Length - subStringLength;
+            snapShotOfOriginalText += new string(' ', editExtensionLength);
+
+            for (int i = 0; i < editText.Length; i++)
             {
-                var editTextChar = editText[i];
-                var newTextChar = text[i];
+                var originalTextChar = snapShotOfOriginalText[i];
+                var newTextChar = editText[i];
 
                 if (!char.IsWhiteSpace(newTextChar))
                 {
-                    editText = editText.Remove(i, 1);
-                    var newCharacter = char.IsWhiteSpace(editTextChar) ? text[i] : '@';
-                    editText = editText.Insert(i, newCharacter.ToString());
+                    ReplaceCharacterInOriginalText(newTextChar, ref snapShotOfOriginalText, i, originalTextChar);
                 }
             }
 
-            Text = Text.Remove(indexOfLastRemovedText, text.Length);
-            Text = Text.Insert(indexOfLastRemovedText, editText);
+            Text = Text.Remove(indexOfLastRemovedText, subStringLength);
+            Text = Text.Insert(indexOfLastRemovedText, snapShotOfOriginalText);
+        }
+
+        private static void ReplaceCharacterInOriginalText(char newTextChar, ref string originalText, int i, char originalTextChar)
+        {
+            originalText = originalText.Remove(i, 1);
+            var newCharacter = char.IsWhiteSpace(originalTextChar) ? newTextChar : '@';
+            originalText = originalText.Insert(i, newCharacter.ToString());
         }
     }
 }

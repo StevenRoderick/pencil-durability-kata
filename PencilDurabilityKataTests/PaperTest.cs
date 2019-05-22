@@ -123,9 +123,22 @@ namespace Tests
             paper.EditText(editText);
 
             Assert.AreEqual(paper.Text, "Remove edite@e@@x@ith edit");
+        }
 
-            //"Remove text test with edit";
-            //        edited text
+        [Test]
+        public void When_EditTextLengthIsGreaterThanOriginalTextLength_Expect_EditedTextToExpandOriginalText()
+        {
+            var text = "Remove text";
+            var textToRemove = "text";
+            var editText = "edited text";
+
+            var paper = new Paper();
+
+            paper.AddText(text);
+            paper.RemoveText(textToRemove);
+            paper.EditText(editText);
+
+            Assert.AreEqual(paper.Text, "Remove edited text");
         }
 
     }
