@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using PencilDurabilityKata;
+using PencilDurabilityKata.Exceptions;
 
 namespace Tests
 {
@@ -141,5 +142,17 @@ namespace Tests
             Assert.AreEqual(paper.Text, "Remove edited text");
         }
 
+        [Test]
+        public void When_EditTextWithNoText_Expect_NoErasedTextException()
+        {
+            Assert.Throws<NoErasedTextException>(() =>
+            {
+                var editText = "edit";
+
+                var paper = new Paper();
+
+                paper.EditText(editText);
+            });
+        }
     }
 }

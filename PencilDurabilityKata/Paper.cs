@@ -1,6 +1,7 @@
 ﻿using PencilDurabilityKata.Interfaces;
 using System.Text;
 using System.Linq;
+using PencilDurabilityKata.Exceptions;
 
 namespace PencilDurabilityKata
 {
@@ -8,7 +9,7 @@ namespace PencilDurabilityKata
     {
         public string Text { get; private set; }
 
-        private int indexOfLastRemovedText;
+        private int? indexOfLastRemovedText;
 
         public Paper()
         {
@@ -23,17 +24,21 @@ namespace PencilDurabilityKata
         public void RemoveText(string text)
         {
             var lastIndex = Text.LastIndexOf(text);
-            Text = Text.Remove(lastIndex, text.Length);
-            Text = Text.Insert(lastIndex, new string(' ', text.Length));
-
+            ReplaceText(lastIndex, text.Length, new string(' ', text.Length));
             indexOfLastRemovedText = lastIndex;
         }
 
         public void EditText(string editText)
         {
-            var snapShotLength = Text.Length - indexOfLastRemovedText;
+            if (!indexOfLastRemovedText.HasValue)
+            {
+                throw new NoErasedTextException();
+            }
+
+            var snapShotLength = Text.Length - indexOfLastRemovedText.Value;
             var subStringLength = snapShotLength > editText.Length ? editText.Length : snapShotLength;
-            var snapShotOfOriginalText = Text.Substring(indexOfLastRemovedText, subStringLength);
+
+            var snapShotOfOriginalText = Text.Substring(indexOfLastRemovedText.Value, subStringLength);
 
             var editExtensionLength = editText.Length - subStringLength;
             snapShotOfOriginalText += new string(' ', editExtensionLength);
@@ -49,8 +54,7 @@ namespace PencilDurabilityKata
                 }
             }
 
-            Text = Text.Remove(indexOfLastRemovedText, subStringLength);
-            Text = Text.Insert(indexOfLastRemovedText, snapShotOfOriginalText);
+            ReplaceText(indexOfLastRemovedText.Value, subStringLength, snapShotOfOriginalText);
         }
 
         private static void ReplaceCharacterInOriginalText(char newTextChar, ref string originalText, int i, char originalTextChar)
@@ -58,6 +62,12 @@ namespace PencilDurabilityKata
             originalText = originalText.Remove(i, 1);
             var newCharacter = char.IsWhiteSpace(originalTextChar) ? newTextChar : '@';
             originalText = originalText.Insert(i, newCharacter.ToString());
+        }
+
+        private void ReplaceText(int index, int length, string newText)
+        {
+            Text = Text.Remove(index, length);
+            Text = Text.Insert(index, newText);
         }
     }
 }

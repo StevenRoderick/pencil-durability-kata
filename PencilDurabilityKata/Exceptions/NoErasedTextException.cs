@@ -2,7 +2,7 @@
 
 namespace PencilDurabilityKata.Exceptions
 {
-    public class NoPaperException : Exception
+    public class NoErasedTextException : Exception
     {
     }
 }
