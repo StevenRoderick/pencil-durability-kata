@@ -57,6 +57,10 @@ namespace PencilDurabilityKata
             paper.RemoveText(stringBuilder.ToString());
         }
 
+        public void Edit(string text)
+        {
+            paper.EditText(text);
+        }
 
         public void Sharpen()
         {

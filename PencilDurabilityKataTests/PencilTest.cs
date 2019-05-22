@@ -39,31 +39,14 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_WriteWithText_ExpectPaperToHaveSameText()
+        public void When_Write_ExpectAddTextToBeCalledWithTextToWrite()
         {
             var textToWrite = "test";
-            var paper = new Paper();
-            var pencil = new Pencil(paper, 4000, 0, 0);
+            var pencil = new Pencil(paperMock.Object, 4000, 0, 0);
 
             pencil.Write(textToWrite);
 
-            Assert.AreEqual(paper.Text, textToWrite);
-        }
-
-        [Test]
-        public void When_WriteWithTextOnPaperWithExistingText_Expect_NewTextToBeAppendedToExistingText()
-        {
-            var existingText = "existing text";
-            var paper = new Paper();
-
-            paper.AddText(existingText);
-
-            var newText = "new text";
-            var pencil = new Pencil(paper, 4000, 0, 0);
-
-            pencil.Write(newText);
-
-            Assert.AreEqual(paper.Text, $"{existingText}{newText}");
+            paperMock.Verify(_paper => _paper.AddText(It.Is<string>(p => p == textToWrite)), Times.Once);
         }
 
         [Test]
@@ -142,15 +125,16 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_WriteAndPencilHas0Durability_Expect_PaperTextToBeSpaceCharacters()
+        public void When_WriteAndPencilHas0Durability_Expect_AddTextToBeCalledWithEmptySpacesSameLengthAsTextToWrite()
         {
+            var textToWrite = "Test";
+
             var durability = 0;
-            var paper = new Paper();
-            var pencil = new Pencil(paper, durability, 0, 0);
+            var pencil = new Pencil(paperMock.Object, durability, 0, 0);
 
-            pencil.Write("Test");
+            pencil.Write(textToWrite);
 
-            Assert.AreEqual(paper.Text, "    ");
+            paperMock.Verify(_paper => _paper.AddText(It.Is<string>(p => p == "    ")), Times.Once);
         }
 
         [Test]
@@ -165,15 +149,13 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_WriteAndPencilReaches0DurabilityAndTextToWriteStill_Expect_RemainingTextToWriteToBeSpaces()
+        public void When_WriteAndPencilReaches0DurabilityAndTextToWriteStill_Expect_PaperAddTextToBeCalledWithLast2CharactersInTextToBeEmpty()
         {
             var durability = 2;
-            var paper = new Paper();
-            var pencil = new Pencil(paper, durability, 0, 0);
-
+            var pencil = new Pencil(paperMock.Object, durability, 0, 0);
             pencil.Write("test");
 
-            Assert.AreEqual(paper.Text, "te  ");
+            paperMock.Verify(_paper => _paper.AddText(It.Is<string>(p => p == "te  ")), Times.Once);
         }
 
         [Test]
@@ -237,16 +219,14 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_Erase_Expect_PaperToReplaceTextWithEmptySpaces()
+        public void When_Erase_Expect_PaperRemoveTextToBeCalledWithTextToBeErased()
         {
-            var text = "Kata Pencil";
             var textToBeErased = "Pencil";
-            
-            var paper = new Paper();
-            var pencil = new Pencil(paper, 100, 5, 100);
-            pencil.Write(text);
+
+            var pencil = new Pencil(paperMock.Object, 100, 5, 100);
             pencil.Erase(textToBeErased);
-            Assert.AreEqual(paper.Text, "Kata       ");
+
+            paperMock.Verify(_paper => _paper.RemoveText(It.Is<string>(p => p == textToBeErased)), Times.Once);
         }
 
         [Test]
@@ -274,35 +254,36 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_EraseAnd0Durability_Expect_EraseToNotErase()
+        public void When_EraseAnd0Durability_Expect_RemoveTextToBeCalledWithAnEmptyString()
         {
-            var text = "Erasing fun";
             var textToErase = "fun";
-
-            var paper = new Paper();
-            var pencil = new Pencil(paper, 100, 5, 0);
-
-            pencil.Write(text);
+            var pencil = new Pencil(paperMock.Object, 100, 5, 0);
             pencil.Erase(textToErase);
 
-            Assert.AreEqual(paper.Text, text);
+            paperMock.Verify(_paper => _paper.RemoveText(It.Is<string>(p => p == "")), Times.Once);
         }
 
         [Test]
-        public void When_EraseAnd2Durability_Expect_EraseToOnlyEraseLast2CharactersInText()
+        public void When_EraseAnd2Durability_Expect_RemoveTextToBeCalledWithLast2CharactersOfTextToErase()
         {
-            var text = "Erasing test";
+            var eraserDurability = 2;
             var textToErase = "test";
 
-            var eraserDurability = 2;
-
-            var paper = new Paper();
-            var pencil = new Pencil(paper, 100, 5, eraserDurability);
-
-            pencil.Write(text);
+            var pencil = new Pencil(paperMock.Object, 100, 5, eraserDurability);
             pencil.Erase(textToErase);
 
-            Assert.AreEqual(paper.Text, "Erasing te  ");
+            paperMock.Verify(_paper => _paper.RemoveText(It.Is<string>(p => p == "st")), Times.Once);
+        }
+
+        [Test]
+        public void When_Edit_Expect_PaperToHaveEditTextCalledWithGivenEditText()
+        {
+            var editText = "edit";
+
+            var pencil = new Pencil(paperMock.Object, 100, 5, 100);
+            pencil.Edit(editText);
+
+            paperMock.Verify(_paper => _paper.EditText(It.Is<string>(p => p == editText)), Times.Once);
         }
     }
 }
