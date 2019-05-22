@@ -7,5 +7,7 @@ namespace PencilDurabilityKata.Interfaces
     public interface IPaper
     {
         void AddText(string text);
+
+        void RemoveText(string text);
     }
 }

@@ -142,7 +142,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilHas0Durability_Expect_PaperTextToBeSpaceCharacters()
+        public void When_WriteAndPencilHas0Durability_Expect_PaperTextToBeSpaceCharacters()
         {
             var durability = 0;
             var paper = new Paper();
@@ -154,7 +154,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilHas0DurabilityAndTextToWriteStill_Expect_DurabilityToNotGoBelow0()
+        public void When_WriteAndPencilHas0DurabilityAndTextToWriteStill_Expect_DurabilityToNotGoBelow0()
         {
             var durability = 0;
             var pencil = new Pencil(paperMock.Object, durability, 0);
@@ -165,7 +165,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilReaches0DurabilityAndTextToWriteStill_Expect_RemainingTextToWriteToBeSpaces()
+        public void When_WriteAndPencilReaches0DurabilityAndTextToWriteStill_Expect_RemainingTextToWriteToBeSpaces()
         {
             var durability = 2;
             var paper = new Paper();
@@ -177,7 +177,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilIsSharpened_Expect_DurabilityToReturnToStartingValue()
+        public void When_Sharpen_Expect_DurabilityToReturnToStartingValue()
         {
             var startingDurability = 2;
             var pencil = new Pencil(paperMock.Object, startingDurability, 1);
@@ -188,7 +188,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilIsSharpened_Expect_LengthIsReduced()
+        public void When_Sharpen_Expect_LengthIsReduced()
         {
             var durability = 3;
             var startingLength = 3;
@@ -198,7 +198,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilIsSharpened_Expect_LengthToBeReducedByOne()
+        public void When_Sharpen_Expect_LengthToBeReducedByOne()
         {
             var startingLength = 3;
             var pencil = new Pencil(paperMock.Object, 0, startingLength);
@@ -207,7 +207,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilIsSharpenedTwice_Expect_LengthToBeReducedByTwo()
+        public void When_SharpenIsUsedTwice_Expect_LengthToBeReducedByTwo()
         {
             var startingLength = 3;
             var pencil = new Pencil(paperMock.Object, 0, startingLength);
@@ -217,7 +217,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilIsNotSharpened_Expect_LengthToBeOriginal()
+        public void When_NoSharpen_Expect_LengthToBeOriginal()
         {
             var startingLength = 3;
             var pencil = new Pencil(paperMock.Object, 0, startingLength);
@@ -225,7 +225,7 @@ namespace PencilDurabilityKataTests
         }
 
         [Test]
-        public void When_PencilHas0Length_Expect_DurabilityToNotRestore()
+        public void When_SharpenAndPencilHas0Length_Expect_DurabilityToNotRestore()
         {
             var startingDurability = 5;
             var startingLength = 0;
@@ -234,6 +234,19 @@ namespace PencilDurabilityKataTests
             Assert.AreEqual(pencil.Durability, 4);
             pencil.Sharpen();
             Assert.AreEqual(pencil.Durability, 4);
+        }
+
+        [Test]
+        public void When_Erase_Expect_PaperToReplaceTextWithEmptySpaces()
+        {
+            var text = "Kata Pencil";
+            var textToBeErased = "Pencil";
+            
+            var paper = new Paper();
+            var pencil = new Pencil(paper, 100, 5);
+            pencil.Write(text);
+            pencil.Erase(textToBeErased);
+            Assert.AreEqual(paper.Text, "Kata       ");
         }
     }
 }
