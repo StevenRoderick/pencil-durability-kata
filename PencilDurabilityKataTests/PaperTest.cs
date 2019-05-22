@@ -76,5 +76,21 @@ namespace Tests
             paper.RemoveText(textToBeErased);
             Assert.AreEqual(paper.Text, "Kata        Kata");
         }
+
+        [Test]
+        public void When_EditText_Expect_TextToGoIntoLastRemovedText()
+        {
+            var text = "Remove text test";
+            var textToRemove = "test";
+            var editText = "edit";
+
+            var paper = new Paper();
+
+            paper.AddText(text);
+            paper.RemoveText(textToRemove);
+            paper.EditText(editText);
+
+            Assert.AreEqual(paper.Text, "Remove text edit");
+        }
     }
 }

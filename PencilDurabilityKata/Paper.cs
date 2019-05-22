@@ -6,6 +6,9 @@ namespace PencilDurabilityKata
     {
         public string Text { get; private set; }
 
+        private int indexOfLastRemovedText;
+        private int lengthOfLastRemovedText;
+
         public Paper()
         {
             Text = string.Empty;
@@ -21,6 +24,15 @@ namespace PencilDurabilityKata
             var lastIndex = Text.LastIndexOf(text);
             Text = Text.Remove(lastIndex, text.Length);
             Text = Text.Insert(lastIndex, new string(' ', text.Length));
+
+            indexOfLastRemovedText = lastIndex;
+            lengthOfLastRemovedText = text.Length;
+        }
+
+        public void EditText(string text)
+        {
+            Text = Text.Remove(indexOfLastRemovedText, lengthOfLastRemovedText);
+            Text = Text.Insert(indexOfLastRemovedText, text);
         }
     }
 }
