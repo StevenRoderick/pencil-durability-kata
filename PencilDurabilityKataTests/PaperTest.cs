@@ -92,5 +92,41 @@ namespace Tests
 
             Assert.AreEqual(paper.Text, "Remove text edit");
         }
+
+        [Test]
+        public void When_EditText_Expect_TextToGoIntoLastRemovedText_2()
+        {
+            var text = "Remove text test";
+            var textToRemove = "text";
+            var editText = "edit";
+
+            var paper = new Paper();
+
+            paper.AddText(text);
+            paper.RemoveText(textToRemove);
+            paper.EditText(editText);
+
+            Assert.AreEqual(paper.Text, "Remove edit test");
+        }
+
+        [Test]
+        public void When_EditTextIsLongerThanErasedText_Expect_OverridingTextToBeAnAtSymbol()
+        {
+            var text = "Remove text test with edit";
+            var textToRemove = "text";
+            var editText = "edited text";
+
+            var paper = new Paper();
+
+            paper.AddText(text);
+            paper.RemoveText(textToRemove);
+            paper.EditText(editText);
+
+            Assert.AreEqual(paper.Text, "Remove edite@e@@x@ith edit");
+
+            //"Remove text test with edit";
+            //        edited text
+        }
+
     }
 }

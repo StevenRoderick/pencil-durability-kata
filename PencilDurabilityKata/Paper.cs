@@ -1,4 +1,6 @@
 ﻿using PencilDurabilityKata.Interfaces;
+using System.Text;
+using System.Linq;
 
 namespace PencilDurabilityKata
 {
@@ -31,8 +33,23 @@ namespace PencilDurabilityKata
 
         public void EditText(string text)
         {
-            Text = Text.Remove(indexOfLastRemovedText, lengthOfLastRemovedText);
-            Text = Text.Insert(indexOfLastRemovedText, text);
+            var editText = Text.Substring(indexOfLastRemovedText, text.Length);
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                var editTextChar = editText[i];
+                var newTextChar = text[i];
+
+                if (!char.IsWhiteSpace(newTextChar))
+                {
+                    editText = editText.Remove(i, 1);
+                    var newCharacter = char.IsWhiteSpace(editTextChar) ? text[i] : '@';
+                    editText = editText.Insert(i, newCharacter.ToString());
+                }
+            }
+
+            Text = Text.Remove(indexOfLastRemovedText, text.Length);
+            Text = Text.Insert(indexOfLastRemovedText, editText);
         }
     }
 }
