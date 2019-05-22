@@ -52,5 +52,17 @@ namespace Tests
             paper.RemoveText(textToBeErased);
             Assert.AreEqual(paper.Text, "Pencil     ");
         }
+
+        [Test]
+        public void When_RemoveText_Expect_OnlyLastOccurenceOfTextToBeRemoved()
+        {
+            var text = "Kata Pencil Kata";
+            var textToBeErased = "Kata";
+
+            paper.AddText(text);
+            Assert.AreEqual(paper.Text, text);
+            paper.RemoveText(textToBeErased);
+            Assert.AreEqual(paper.Text, "Kata Pencil     ");
+        }
     }
 }
