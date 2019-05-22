@@ -9,15 +9,17 @@ namespace PencilDurabilityKata
     {
         private IPaper paper;
         public int Durability { get; private set; }
+        public int Length { get; private set; }
 
         private const char dullPencilCharacter = ' ';
         private readonly int startingDurability;
 
-        public Pencil(IPaper paper, int durability)
+        public Pencil(IPaper paper, int durability, int length)
         {
             this.paper = paper;
             startingDurability = durability;
             Durability = durability;
+            Length = length;
         }
 
         public void Write(string text)
@@ -35,6 +37,7 @@ namespace PencilDurabilityKata
         public void Sharpen()
         {
             Durability = startingDurability;
+            Length--;
         }
 
         private string Print(string text)
