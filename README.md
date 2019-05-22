@@ -8,5 +8,5 @@ To run the application from the command line execute `dotnet run --project ./Pen
 
 The command line execution was tested on Windows 10 and MacOS Mojave
 
-NOTE: There is currently no application level functionality. I will be adding a end-user interface through the command prompt but right now I am focusing on just writing the tests and functionality of the Pencil and Paper.
+NOTE: There is currently no application level functionality. I plan to add a console window to allow you to virtually write with the pencil but as of right now I don't have any more time to add additional features to the Kata.
 
