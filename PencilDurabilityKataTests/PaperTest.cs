@@ -42,7 +42,7 @@ namespace Tests
         }
 
         [Test]
-        public void When_RemoveText_Expect_TextToBeEmptySpaces()
+        public void When_RemoveText_Expect_TextToBeReplacedWithEmptySpaces()
         {
             var text = "Pencil Kata";
             var textToBeErased = "Kata";
@@ -54,7 +54,7 @@ namespace Tests
         }
 
         [Test]
-        public void When_RemoveText_Expect_OnlyLastOccurenceOfTextToBeRemoved()
+        public void When_RemoveText_Expect_OnlyLastOccurenceOfTextToBeReplacedWithEmptySpaces()
         {
             var text = "Kata Pencil Kata";
             var textToBeErased = "Kata";
@@ -63,6 +63,18 @@ namespace Tests
             Assert.AreEqual(paper.Text, text);
             paper.RemoveText(textToBeErased);
             Assert.AreEqual(paper.Text, "Kata Pencil     ");
+        }
+
+        [Test]
+        public void When_RemoveText_Expect_OnlyLastOccurenceOfTextToBeReplacedWithEmptySpaces_2()
+        {
+            var text = "Kata Pencil Kata";
+            var textToBeErased = "Pencil";
+
+            paper.AddText(text);
+            Assert.AreEqual(paper.Text, text);
+            paper.RemoveText(textToBeErased);
+            Assert.AreEqual(paper.Text, "Kata        Kata");
         }
     }
 }
