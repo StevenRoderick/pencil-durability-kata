@@ -4,7 +4,12 @@ namespace PencilDurabilityKata
 {
     public class Paper: IPaper
     {
-        public string Text = string.Empty;
+        public string Text { get; private set; }
+
+        public Paper()
+        {
+            Text = string.Empty;
+        }
 
         public void AddText(string text)
         {

@@ -10,6 +10,8 @@ namespace PencilDurabilityKata
         private IPaper paper;
         public int Durability { get; private set; }
 
+        private const char dullPencilCharacter = ' ';
+
         public Pencil(IPaper paper, int durability)
         {
             this.paper = paper;
@@ -23,16 +25,23 @@ namespace PencilDurabilityKata
                 throw new NoPaperException();
             }
 
+            var printedText = Print(text);
+
+            paper.AddText(printedText);
+        }
+
+        private string Print(string text)
+        {
             var stringBuilder = new StringBuilder();
 
             foreach (var character in text)
             {
-                var nextCharacter = Durability == 0 ? ' ' : character;
+                var nextCharacter = Durability == 0 ? dullPencilCharacter : character;
                 stringBuilder.Append(nextCharacter);
                 DegradeDurability(character);
             }
 
-            paper.AddText(stringBuilder.ToString());
+            return stringBuilder.ToString();
         }
 
         private void DegradeDurability(char character)
