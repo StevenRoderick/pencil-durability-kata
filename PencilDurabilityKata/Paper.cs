@@ -24,8 +24,11 @@ namespace PencilDurabilityKata
         public void RemoveText(string text)
         {
             var lastIndex = Text.LastIndexOf(text);
-            ReplaceText(lastIndex, text.Length, new string(' ', text.Length));
-            indexOfLastRemovedText = lastIndex;
+            if (lastIndex != -1)
+            {
+                ReplaceText(lastIndex, text.Length, new string(' ', text.Length));
+                indexOfLastRemovedText = lastIndex;
+            }
         }
 
         public void EditText(string editText)

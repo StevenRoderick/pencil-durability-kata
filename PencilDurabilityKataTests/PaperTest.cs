@@ -79,6 +79,18 @@ namespace Tests
         }
 
         [Test]
+        public void When_RemoveTextIsNotPresentInText_Expect_NoTextToBeErased()
+        {
+            var text = "Kata Pencil Kata";
+            var textToBeErased = "bad";
+
+            paper.AddText(text);
+            Assert.AreEqual(paper.Text, text);
+            paper.RemoveText(textToBeErased);
+            Assert.AreEqual(paper.Text, text);
+        }
+
+        [Test]
         public void When_EditText_Expect_TextToGoIntoLastRemovedText()
         {
             var text = "Remove text test";
