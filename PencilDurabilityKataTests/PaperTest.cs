@@ -40,5 +40,17 @@ namespace Tests
 
             Assert.AreEqual(paper.Text, $"{firstText}{secondText}");
         }
+
+        [Test]
+        public void When_RemoveText_Expect_TextToBeEmptySpaces()
+        {
+            var text = "Pencil Kata";
+            var textToBeErased = "Kata";
+
+            paper.AddText(text);
+            Assert.AreEqual(paper.Text, text);
+            paper.RemoveText(textToBeErased);
+            Assert.AreEqual(paper.Text, "Pencil     ");
+        }
     }
 }

@@ -15,5 +15,10 @@ namespace PencilDurabilityKata
         {
             Text += text;
         }
+
+        public void RemoveText(string text)
+        {
+            Text = Text.Replace(text, new string(' ', text.Length));
+        }
     }
 }
